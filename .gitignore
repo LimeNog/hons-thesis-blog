@@ -1,0 +1,5 @@
+# Ignore generated folders and temporary files
+docs/
+.Rproj.user/
+*.Rhistory
+*.RData

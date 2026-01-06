@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "A Guide through A Deep Learning Approach to Optimal Reinsurance under Rational Inattention"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Foundations"
+        href: foundations.qmd
+      - text: "HJB"
+        href: hjb.qmd
+      - text: "Reinsurance"
+        href: reinsurance.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    mathjax: true
+
+
