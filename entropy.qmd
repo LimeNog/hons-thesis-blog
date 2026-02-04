@@ -1,0 +1,65 @@
+---
+title: "Entropy"
+format: html
+execute:
+  echo: false
+---
+
+In information theory, entropy is a measure of uncertainty.
+
+$$ H(X) \coloneqq - \mathbb{E}[\log{p(X)}] $$
+
+$$
+H(X) \coloneqq -\sum_{x\in \mathcal{X}} p(x) \log{p(X)}
+$$
+
+```{r}
+
+#| message: false
+#| warning: false
+
+suppressPackageStartupMessages(library(plotly))
+
+library(plotly)
+
+X <- seq(-5, 5, 0.01)
+sds <- seq(0.5, 1, 0.01)
+
+fig <- plot_ly()
+
+for (s in sds) {
+  pdf <- dnorm(X, 0, s)
+  ent <- -pdf * log(pdf)
+  
+  # Add PDF line for this frame
+  fig <- fig |>
+    add_lines(
+      x = X, y = pdf,
+      type = "scatter", mode = "lines",
+      name = "PDF",
+      line = list(color = "blue"),
+      frame = paste0("s=", round(s,2))
+    )
+  
+  # Add Entropy line for the same frame
+  fig <- fig |>
+    add_lines(
+      x = X, y = ent,
+      type = "scatter", mode = "lines",
+      name = "Entropy",
+      line = list(color = "red"),
+      frame = paste0("s=", round(s,2))
+    )
+}
+
+fig <- fig |> layout(
+  title = "Normal PDF and Entropy",
+  xaxis = list(title = "x"),
+  yaxis = list(title = "Value")
+) |> animation_opts(
+  frame = 100, transition = 0, redraw = FALSE
+)
+
+fig
+
+```

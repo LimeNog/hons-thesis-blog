@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>hons-thesis-blog – A Guide through A Deep Learning Approach to Optimal Reinsurance under Rational Inattention</title>
+<title>A Deep Learning Approach to Optimal Reinsurance under Rational Inattention – A Guide through My Honours Thesis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,8 +68,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -115,7 +84,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">A Guide through A Deep Learning Approach to Optimal Reinsurance under Rational Inattention</span>
+    <span class="navbar-title">A Guide through My Honours Thesis</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -124,22 +93,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./foundations.qmd"> 
-<span class="menu-text">Foundations</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./hjb.qmd"> 
-<span class="menu-text">HJB</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./reinsurance.qmd"> 
-<span class="menu-text">Reinsurance</span></a>
-  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -155,11 +110,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">hons-thesis-blog</h1>
+<h1 class="title">A Deep Learning Approach to Optimal Reinsurance under Rational Inattention</h1>
 </div>
 
 
@@ -176,12 +131,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<style>
+.mermaid-map {
+  width: 90%;                  /* container width (adjust as needed) */
+  max-width: 1200px;           /* optional max width */
+  height: 500px;               /* container height */
+  margin: 1rem auto;           /* center horizontally with some top/bottom space */
+  overflow: hidden;            /* hide scrollbars */
+  position: relative;
+  border: 2px solid #333;      /* add border back */
+  border-radius: 8px;          /* optional rounded corners */
+  background-color: #f9f9f9;   /* optional background */
+  display: flex;               /* stretch child */
+  flex-direction: column;
+}
+
+.mermaid-map .mermaid {
+  flex: 1;                     /* stretch Mermaid block */
+}
+
+.mermaid-map .mermaid svg {
+  width: max-content !important;
+  max-width: none !important;
+  height: 100% !important;     /* fill container vertically */
+  transform-origin: 0 0;
+  cursor: grab;
+  user-select: none;
+  display: block;
+}
+</style>
+
+<script>
+function initMermaidMap(container) {
+  const svg = container.querySelector("svg");
+  if (!svg) return false;
+
+  let scale = 1;
+  let panX = 0;
+  let panY = 0;
+  let isPanning = false;
+  let startX = 0;
+  let startY = 0;
+
+  function update() {
+    svg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+
+  container.addEventListener("wheel", function(e) {
+    e.preventDefault();
+
+    const rect = container.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+    const newScale = Math.min(Math.max(scale * zoom, 0.3), 4);
+
+    panX = mx - (mx - panX) * (newScale / scale);
+    panY = my - (my - panY) * (newScale / scale);
+
+    scale = newScale;
+    update();
+  }, { passive: false });
+
+  container.addEventListener("mousedown", function(e) {
+    isPanning = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+  });
+
+  window.addEventListener("mousemove", function(e) {
+    if (!isPanning) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    update();
+  });
+
+  window.addEventListener("mouseup", function() {
+    isPanning = false;
+  });
+
+  update();
+  return true;
+}
+
+window.addEventListener("load", function () {
+  document.querySelectorAll(".mermaid-map").forEach(container => {
+    const timer = setInterval(() => {
+      if (initMermaidMap(container)) {
+        clearInterval(timer);
+      }
+    }, 200);
+  });
+});
+</script>
+<div class="column-page">
+<div class="mermaid-map">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+
+ins[Insurance] --&gt; reins[Reinsurance]
+reins --&gt; cl_mod[Cramer-Lundberg model]
+rv[Random variables] --&gt; stoch[Stochastic processes]
+rv --&gt; clt[Central Limit Theorem]
+stoch --&gt; pp[Poisson processes]
+stoch --&gt; bm[Brownian motion]
+stoch --&gt; fclt[Functional Central Limit Theorem]
+clt --&gt; fclt
+pp --&gt; cl_mod
+bm --&gt; sde[Stochastic Differential Equations]
+sde --&gt; bs_mod[Black-Scholes model]
+sde --&gt; diff_approx_cl[Diffusion approximation of CL aggregate claims]
+cl_mod --&gt; diff_approx_cl
+fclt --&gt; diff_approx_cl
+bs_mod --&gt; surp[Insurer and reinsurer surplus processes]
+diff_approx_cl --&gt; surp
+
+stackel[Stackelberg differential game] --&gt; inc[incomplete]
+e_util[Expected utility] --&gt; inc
+k_filter[Kalman filtering] --&gt; inc
+ri[Rational inattention] --&gt; inc
+dl[Deep Learning] --&gt; inc
+entropy[&lt;a href='entropy.html'&gt;Entropy&lt;/a&gt;] --&gt; inc
+
+click ins "post2.html" "Go to Start page"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 

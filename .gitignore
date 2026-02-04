@@ -1,5 +1,8 @@
 # Ignore generated folders and temporary files
-docs/
+# docs/
 .Rproj.user/
 *.Rhistory
 *.RData
+
+/.quarto/
+**/*.quarto_ipynb

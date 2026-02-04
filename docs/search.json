@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "hons-thesis-blog",
+    "title": "A Deep Learning Approach to Optimal Reinsurance under Rational Inattention",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "graph LR\n\nins[Insurance] --&gt; reins[Reinsurance]\nreins --&gt; cl_mod[Cramer-Lundberg model]\nrv[Random variables] --&gt; stoch[Stochastic processes]\nrv --&gt; clt[Central Limit Theorem]\nstoch --&gt; pp[Poisson processes]\nstoch --&gt; bm[Brownian motion]\nstoch --&gt; fclt[Functional Central Limit Theorem]\nclt --&gt; fclt\npp --&gt; cl_mod\nbm --&gt; sde[Stochastic Differential Equations]\nsde --&gt; bs_mod[Black-Scholes model]\nsde --&gt; diff_approx_cl[Diffusion approximation of CL aggregate claims]\ncl_mod --&gt; diff_approx_cl\nfclt --&gt; diff_approx_cl\nbs_mod --&gt; surp[Insurer and reinsurer surplus processes]\ndiff_approx_cl --&gt; surp\n\nstackel[Stackelberg differential game] --&gt; inc[incomplete]\ne_util[Expected utility] --&gt; inc\nk_filter[Kalman filtering] --&gt; inc\nri[Rational inattention] --&gt; inc\ndl[Deep Learning] --&gt; inc\nentropy[&lt;a href='entropy.html'&gt;Entropy&lt;/a&gt;] --&gt; inc\n\nclick ins \"post2.html\" \"Go to Start page\""
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,12 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "entropy.html",
+    "href": "entropy.html",
+    "title": "Entropy",
+    "section": "",
+    "text": "In information theory, entropy is a measure of uncertainty.\n\\[ H(X) \\coloneqq - \\mathbb{E}[\\log{p(X)}] \\]\n\\[\nH(X) \\coloneqq -\\sum_{x\\in \\mathcal{X}} p(x) \\log{p(X)}\n\\]"
   }
 ]
