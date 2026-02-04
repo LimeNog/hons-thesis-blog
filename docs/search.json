@@ -18,6 +18,6 @@
     "href": "entropy.html",
     "title": "Entropy",
     "section": "",
-    "text": "In information theory, entropy is a measure of uncertainty.\n\\[ H(X) \\coloneqq - \\mathbb{E}[\\log{p(X)}] \\]\n\\[\nH(X) \\coloneqq -\\sum_{x\\in \\mathcal{X}} p(x) \\log{p(X)}\n\\]"
+    "text": "In information theory, entropy is a measure of uncertainty. Mathematically, for a random variable \\(X\\) with probability density function \\(p(x)\\), it is defined as:\n\\[ \\mathrm{H} (X) \\coloneqq - \\mathbb{E}[\\log_b {p(X)}] \\]\nBut why does entropy measure uncertainty?"
   }
 ]

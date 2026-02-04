@@ -5,19 +5,123 @@ execute:
   echo: false
 ---
 
-In information theory, entropy is a measure of uncertainty.
+In information theory, entropy is a measure of uncertainty. Mathematically, for a random variable $X$ with probability density function $p(x)$, it is defined as:
 
-$$ H(X) \coloneqq - \mathbb{E}[\log{p(X)}] $$
+$$ \mathrm{H} (X) \coloneqq - \mathbb{E}[\log_b {p(X)}] $$
+
+But why does entropy measure uncertainty?
+
+## 
+
+# Biased coins
+
+Let's play a simple game with a coin. We both put in \$1,000 into the pot — if I flip heads, you win the pot, otherwise I win the pot. If we use a fair coin, any sane person would think twice before playing the game — it is uncertain whether you will win or lose money. But say you know that the coin is biased and there's a 99% chance of flipping heads. Of course you'd take the bet — it is relatively certain that you would win. Similarly, if you know that there's a 1% chance of flipping heads, you would never take that bet — it is relatively certain that would lose.
+
+We can formalise this uncertainty with entropy. Letting $X=1$ represent heads and $X=0$ represent tails, we can calculate the entropy of the outcome of a flip of a fair coin:
 
 $$
-H(X) \coloneqq -\sum_{x\in \mathcal{X}} p(x) \log{p(X)}
+\begin{align}
+\mathrm{H} (X) &= -\sum_{x\in \mathcal{x}} p(x) \log{p(x)} \\
+&= - p(0)\times \log{p(0)} - p(1) \times \log{p(1)} \\
+&= -0.5\times \log{0.5} - 0.5 \times \log{0.5} \\
+&= 0.6931 \; \mathrm{nats}
+\end{align}
 $$
+
+Note that the choices of logarithm base $b=2$, $b=e$ and $b=10$ correspond to the entropy units bits, nats and bans, respectively. In the above, and for the remainder of the post, we work in nats (i.e. $b=e$).
+
+In the same way, we can calculate the entropy for all possible coin biases/probabilities of flipping heads, and we get a plot like this:
 
 ```{r}
 
 #| message: false
 #| warning: false
+suppressPackageStartupMessages(library(plotly))
 
+library(plotly)
+
+p <- seq(0,1,0.01)
+ent <- -p*log(p) - (1-p) * log(1-p)
+flg <- plot_ly(
+  x = p,
+  y = ent,
+  type = "scatter", mode = "lines", 
+  line = list(color = "red")
+) |> layout(
+  title = "Entropies of biased coins",
+  xaxis = list(title = "Probability of landing heads"),
+  yaxis = list(
+    title = "Entropy",
+    range = c(0, 0.8)   # <- set y-axis limits here
+  )
+)
+
+flg
+```
+
+Entropy captures that uncertainty we feel making the bet. It peaks in the middle, which is when a fair coin is flipped. The more we stray from the centre, the more biased the coin is, and the less uncertain we are about the outcome of the coin flip.
+
+# Intuition behind the entropy formula
+
+Let's take a closer look at the equation for the entropy:
+
+$$
+\mathrm{H}(X) = 
+\overbrace{\sum_{x\in\mathcal{X}}}^{\text{sum over all possible realisations of } X} 
+\underbrace{p(x)}_{\text{probability of the realisation } x} \times 
+\underbrace{(-\log{p(x)})}_{\text{how surprising } x \text{ is}}
+$$
+
+A more precise way of thinking of entropy is as the expected 'surprise' from a random variable. Specifically, $-\log{p(x)}$ represents the surprise for a particular realisation of $X$.
+
+```{r}
+
+#| message: false
+#| warning: false
+suppressPackageStartupMessages(library(plotly))
+
+library(plotly)
+
+p <- seq(0,1,0.01)
+sur <- -log(p)
+flg <- plot_ly(
+  x = p,
+  y = sur,
+  type = "scatter", mode = "lines", 
+  line = list(color = "blue", dash = "dash")
+) |> layout(
+  title = "Probabilities and surprise",
+  xaxis = list(title = "Probability that X takes on the value x (p(X))"),
+  yaxis = list(
+    title = "Surprise (-log(p(x))",
+    range = c(0, 5)   # <- set y-axis limits here
+  )
+)
+
+flg
+
+```
+
+As the probability of the realisation $x$ increases, $-\log{p(x)}$ decreases — in other words, the more likely it is that $X$ takes on the value of $x$, the less surprising it is when $X$ takes on the value $x$.
+
+We then weight each possible realisation's surprise by how likely it is to occur, and sum it all up to get the expected surprise of the random variable $X$ — the entropy of $X$!
+
+Note that the choice of $-\log{p(x)}$ as the measure of surprise has an additional intuitive property. If we have two independent events $A$ and $B$ with probabilities of occurring $p$ and $q$, the probability of both of them occurring is $pq$. The surprise from both of them occurring at the same time is:
+
+$$ \begin{align}  \mathrm{Surprise}(A \text{ and } B) &= -\log{\mathbb{P}(AB)} \\ &= -\log{pq} \\ &= -\log{p} - \log{q} \\ &= \mathrm{Surprise}(A) + \mathrm{Surprise}(B)  \end{align} $$
+
+Hence, the choice of $-\log{p(x)}$ as the measure of surprise results in surprise being additive!
+
+Also, all the intuition above applies to continuous random variables too — the entropy of a continuous random variable is:
+
+$$ \mathrm{H}(X) =  \overbrace{\int_{\mathcal{X}}}^{\text{'sum' over all possible realisations of } X}  \underbrace{p(x)}_{\text{'probability' of the realisation } x} \times  \underbrace{(-\log{p(x)})}_{\text{how surprising } x \text{ is}} \; dx $$
+
+In the interactive plot below, we have a normally distributed variable with a fixed mean and an adjustable standard deviation.
+
+```{r}
+
+#| message: false
+#| warning: false
 suppressPackageStartupMessages(library(plotly))
 
 library(plotly)
@@ -27,8 +131,9 @@ sds <- seq(0.5, 1, 0.01)
 
 fig <- plot_ly()
 
-for (s in sds) {
-  pdf <- dnorm(X, 0, s)
+for (sigma in sds) {
+  pdf <- dnorm(X, 0, sigma)
+  sur <- -log(pdf)
   ent <- -pdf * log(pdf)
   
   # Add PDF line for this frame
@@ -36,9 +141,19 @@ for (s in sds) {
     add_lines(
       x = X, y = pdf,
       type = "scatter", mode = "lines",
-      name = "PDF",
-      line = list(color = "blue"),
-      frame = paste0("s=", round(s,2))
+      name = "PDF/probability",
+      line = list(color = "black"),
+      frame = paste0("sigma=", round(sigma,2))
+    )
+  
+  # Add surprise line for this frame
+  fig <- fig |>
+    add_lines(
+      x = X, y = sur,
+      type = "scatter", mode = "lines",
+      name = "Surprise",
+      line = list(color = "blue", dash = "dash"),
+      frame = paste0("sigma=", round(sigma,2))
     )
   
   # Add Entropy line for the same frame
@@ -48,18 +163,131 @@ for (s in sds) {
       type = "scatter", mode = "lines",
       name = "Entropy",
       line = list(color = "red"),
-      frame = paste0("s=", round(s,2))
-    )
+      frame = paste0("sigma=", round(sigma,2))
+    ) |>
+  add_ribbons(
+    x = X,
+    ymin = 0,
+    ymax = ent,
+    name = "Shaded area",
+    fillcolor = "rgba(255,0,0,0.1)",
+    line = list(color = "transparent"),
+    showlegend = FALSE,
+    frame = paste0("sigma=", round(sigma,2))
+  )
 }
 
 fig <- fig |> layout(
-  title = "Normal PDF and Entropy",
+  title = "Entropy of the normal distribution",
   xaxis = list(title = "x"),
-  yaxis = list(title = "Value")
+  yaxis = list(
+    title = "Value",
+    range = c(0, 2)   # <- set y-axis limits here
+  ),
+  legend = list(
+    x = 0.8,
+    y = 0.95,
+    xanchor = "left",
+    yanchor = "top",
+    bgcolor = "rgba(255,255,255,0.7)",  # semi-transparent background
+    bordercolor = "black",
+    borderwidth = 1
+  )
 ) |> animation_opts(
   frame = 100, transition = 0, redraw = FALSE
 )
 
+
 fig
 
 ```
+
+As the standard deviation increases, the probabilities of each realisation of $X$ become more spread out, but the amount of surprise from most realisations increases — so entropy (the area under the red curve) increases too.
+
+In fact, it is known that the normal distribution has an entropy of $\frac{1}{2} \log{2\pi e \sigma^2}$ — the entropy of a normal distribution scales linearly with its variance!
+
+# WeightGuessr
+
+Say we are estimating an unknown continuous variable, such as someone's weight. Even if we have a 'best guess' at how heavy they are by looking at them, we can't be sure of their exact weight. Hence, our estimate must follow a distribution, and due to the properties of the normal distribution, it is the natural choice.
+
+In the interactive plot below, the distribution of our estimate of their weight has a fixed mean (our best guess) and an adjustable standard deviation.
+
+```{r}
+
+#| message: false
+#| warning: false
+suppressPackageStartupMessages(library(plotly))
+
+library(plotly)
+
+X <- seq(60, 100, 0.1)
+sds <- seq(1, 5, 0.05)
+
+# Reverse sigma sequence
+sds_rev <- rev(sds)
+
+fig <- plot_ly()
+
+for (sigma in sds_rev) {
+  sigma_str <- as.character(round(sigma, 2))  # frame must be a string
+  pdf <- dnorm(X, 80, sigma)
+  ent <- -pdf * log(pdf)
+  
+  # PDF line
+  fig <- fig |> add_lines(
+    x = X,
+    y = pdf,
+    type = "scatter",
+    mode = "lines",
+    name = "PDF/probability",
+    line = list(color = "black"),
+    frame = sigma_str
+  )
+  
+  # Entropy line + shaded area
+  fig <- fig |> add_lines(
+    x = X,
+    y = ent,
+    type = "scatter",
+    mode = "lines",
+    name = "Entropy",
+    line = list(color = "red"),
+    frame = sigma_str
+  ) |> add_ribbons(
+    x = X,
+    ymin = 0,
+    ymax = ent,
+    fillcolor = "rgba(255,0,0,0.1)",
+    line = list(color = "transparent"),
+    showlegend = FALSE,
+    frame = sigma_str
+  )
+}
+
+fig <- fig |> layout(
+  title = "Distribution of our weight estimate",
+  xaxis = list(title = "Weight", range = c(60, 100)),
+  yaxis = list(title = "Estimated probability", range = c(0,0.4)),
+  legend = list(
+    x = 0.8,
+    y = 0.95,
+    xanchor = "left",
+    yanchor = "top",
+    bgcolor = "rgba(255,255,255,0.7)",
+    bordercolor = "black",
+    borderwidth = 1
+  )
+) |> animation_opts(
+  frame = 100,
+  transition = 0,
+  redraw = FALSE
+)
+
+fig
+
+
+
+
+```
+
+As we decrease the standard deviation, we benefit from being less uncertain about our estimates. We can do this by observing the person more closely, asking them questions, etc. However, in general, there is a cost reducing the uncertainty of our estimates — and this is exactly the motivation behind [rational inattention](rationalinattention.html)!

@@ -1,2 +1,10 @@
 /* css styles */
 
+.plotly {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.plotly .main-svg {
+  font-size: 14px;
+}
